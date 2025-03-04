@@ -1,0 +1,6 @@
+@FactoryTalent.API_HostAddress = http://localhost:5037
+
+GET {{FactoryTalent.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

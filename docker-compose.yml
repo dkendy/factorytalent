@@ -1,0 +1,67 @@
+version: '3.9'
+
+services:
+  factorytalent.api:
+    image: ${DOCKER_REGISTRY-}factorytalentapi
+    container_name: factorytalent.Api
+    build:
+      context: .
+      dockerfile: src/API/FactoryTalent.Api/Dockerfile
+      args:
+        no_cache: "1"
+    ports:
+      - 5000:5000
+      - 5001:5001
+
+  factorytalent.database:
+    image: postgres:latest
+    container_name: factorytalent.Database
+    environment:
+      - POSTGRES_DB=factorytalent
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  factorytalent.identity:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: factorytalent.Identity
+    command: start-dev --import-realm
+    environment:
+      - KC_HEALTH_ENABLED=true 
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+    volumes:
+      - ./.containers/identity:/opt/keycloak/data
+      - ./.files:/opt/keycloak/data/import
+    ports:
+      - 18080:8080
+
+  factorytalent.seq:
+    image: datalust/seq:latest
+    container_name: FactoryTalent.Seq
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 8081:80
+
+  factorytalent.redis:
+    image: redis:latest
+    container_name: factorytalent.Redis
+    restart: always
+    ports:
+      - 6379:6379
+
+  factorytalent.jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: factorytalent.Jaeger
+    ports:
+      - 4317:4317
+      - 4318:4318
+      - 16686:16686
+
+volumes:
+  pgdata:

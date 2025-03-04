@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\FactoryTalent.Common.Application\FactoryTalent.Common.Application.csproj" />
+    <ProjectReference Include="..\..\..\Common\FactoryTalent.Common.Domain\FactoryTalent.Common.Domain.csproj" />
+    <ProjectReference Include="..\FactoryTalent.Modules.Users.Domain\FactoryTalent.Modules.Users.Domain.csproj" />
+    <ProjectReference Include="..\FactoryTalent.Modules.Users.IntegrationEvents\FactoryTalent.Modules.Users.IntegrationEvents.csproj" />
+  </ItemGroup>
+</Project>

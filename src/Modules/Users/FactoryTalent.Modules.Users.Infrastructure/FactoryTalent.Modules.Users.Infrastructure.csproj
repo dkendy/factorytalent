@@ -1,0 +1,10 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\FactoryTalent.Common.Application\FactoryTalent.Common.Application.csproj" />
+    <ProjectReference Include="..\..\..\Common\FactoryTalent.Common.Domain\FactoryTalent.Common.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Common\FactoryTalent.Common.Infrastructure\FactoryTalent.Common.Infrastructure.csproj" />
+    <ProjectReference Include="..\FactoryTalent.Modules.Users.Application\FactoryTalent.Modules.Users.Application.csproj" />
+    <ProjectReference Include="..\FactoryTalent.Modules.Users.Presentation\FactoryTalent.Modules.Users.Presentation.csproj" />
+  </ItemGroup>
+</Project>
