@@ -8,4 +8,10 @@
     <ProjectReference Include="..\FactoryTalent.Modules.Users.Domain\FactoryTalent.Modules.Users.Domain.csproj" />
     <ProjectReference Include="..\FactoryTalent.Modules.Users.IntegrationEvents\FactoryTalent.Modules.Users.IntegrationEvents.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Update="SonarAnalyzer.CSharp" Version="10.7.0.110445">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>

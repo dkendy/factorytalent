@@ -28,12 +28,12 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
 
     }
 
-    private bool ContainUppercase(string password) => Regex.IsMatch(password, "[A-Z]");
-    private bool ContainDigit(string password) => Regex.IsMatch(password, "[0-9]");
+    private static bool ContainUppercase(string password) => Regex.IsMatch(password, "[A-Z]");
+    private static bool ContainDigit(string password) => Regex.IsMatch(password, "[0-9]");
 
-    private bool ContainSpecialCharacter(string password) => Regex.IsMatch(password, "[!@#$%^&*]");
+    private static bool ContainSpecialCharacter(string password) => Regex.IsMatch(password, "[!@#$%^&*]");
 
-    private bool BeAtLeast18YearsOld(DateTime date)
+    private static bool BeAtLeast18YearsOld(DateTime date)
     {
 
         DateTime today = DateTime.Today;
@@ -42,12 +42,12 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
         return date.Date <= minDate;
     }
 
-    private bool BeOnlyDigits(string cpf)
+    private static bool BeOnlyDigits(string cpf)
     {
         return Regex.IsMatch(cpf, @"^\d{11}$");
     }
 
-    private bool NotBeBlacklisted(string cpf)
+    private static bool NotBeBlacklisted(string cpf)
     {
         string[] invalidCpfs = {
             "00000000000", "11111111111", "22222222222", "33333333333",
@@ -57,7 +57,7 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
         return !invalidCpfs.Contains(cpf);
     }
 
-    private bool IsValidCpfAlgorithm(string cpf)
+    private static bool IsValidCpfAlgorithm(string cpf)
     {
         if (cpf.Length != 11)
         { 
@@ -73,7 +73,7 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
         return cpf.EndsWith($"{firstDigit}{secondDigit}", StringComparison.CurrentCulture);
     }
 
-    private int CalculateCpfDigit(string cpf, int[] multipliers)
+    private static int CalculateCpfDigit(string cpf, int[] multipliers)
     {
         int sum = cpf.Select((digit, index) => (digit - '0') * multipliers[index]).Sum();
         int remainder = sum % 11;
