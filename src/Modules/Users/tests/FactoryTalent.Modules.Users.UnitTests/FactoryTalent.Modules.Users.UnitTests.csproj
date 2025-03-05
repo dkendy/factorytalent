@@ -24,7 +24,7 @@
  
   <ItemGroup>
     <ProjectReference Include="..\..\FactoryTalent.Modules.Users.Domain\FactoryTalent.Modules.Users.Domain.csproj" />
-    <ProjectReference Include="..\TestUtilities\FactoryTalent.Modules.Users.TestUtilities.csproj" />
+    <ProjectReference Include="..\..\FactoryTalent.Modules.Users.Application\FactoryTalent.Modules.Users.Application.csproj" /> 
   </ItemGroup>
 
   <ItemGroup>

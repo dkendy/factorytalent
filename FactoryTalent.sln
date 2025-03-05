@@ -49,8 +49,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.UnitTests", "src\Modules\Users\tests\FactoryTalent.Modules.Users.UnitTests\FactoryTalent.Modules.Users.UnitTests.csproj", "{51DABBEE-9BDD-4F69-87A0-63F9342858D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.TestUtilities", "src\Modules\Users\tests\TestUtilities\FactoryTalent.Modules.Users.TestUtilities.csproj", "{65F35FA4-224A-4246-8819-958ED37CFF32}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,10 +107,6 @@ Global
 		{51DABBEE-9BDD-4F69-87A0-63F9342858D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51DABBEE-9BDD-4F69-87A0-63F9342858D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51DABBEE-9BDD-4F69-87A0-63F9342858D2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65F35FA4-224A-4246-8819-958ED37CFF32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65F35FA4-224A-4246-8819-958ED37CFF32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65F35FA4-224A-4246-8819-958ED37CFF32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65F35FA4-224A-4246-8819-958ED37CFF32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,7 +128,6 @@ Global
 		{1B204DD4-71B7-4E40-B62B-D0099511780D} = {1B1F4239-9C0C-4256-AA5B-AB888B55D3E2}
 		{F1815B00-9FF2-44C4-98DB-602730FB4340} = {1B1F4239-9C0C-4256-AA5B-AB888B55D3E2}
 		{4CACA9A5-EB43-4469-905D-FDCB4BF30FA7} = {F1815B00-9FF2-44C4-98DB-602730FB4340}
-		{51DABBEE-9BDD-4F69-87A0-63F9342858D2} = {F1815B00-9FF2-44C4-98DB-602730FB4340}
-		{65F35FA4-224A-4246-8819-958ED37CFF32} = {F1815B00-9FF2-44C4-98DB-602730FB4340}
+		{51DABBEE-9BDD-4F69-87A0-63F9342858D2} = {F1815B00-9FF2-44C4-98DB-602730FB4340} 
 	EndGlobalSection
 EndGlobal

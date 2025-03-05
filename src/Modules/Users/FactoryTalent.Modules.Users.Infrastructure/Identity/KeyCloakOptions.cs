@@ -6,6 +6,10 @@ public sealed class KeyCloakOptions
 
     public string TokenUrl { get; set; }
 
+    public string UserAdmin { get; set; }
+
+    public string PasswordAdm { get; set; }
+
     public string ConfidentialClientId { get; set; }
 
     public string ConfidentialClientSecret { get; set; }

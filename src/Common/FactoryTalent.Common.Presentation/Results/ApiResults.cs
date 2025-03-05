@@ -26,6 +26,8 @@ public static class ApiResults
                 ErrorType.Problem => error.Code,
                 ErrorType.NotFound => error.Code,
                 ErrorType.Conflict => error.Code,
+                ErrorType.Failure => throw new NotImplementedException(),
+
                 _ => "Server failure"
             };
 
@@ -36,6 +38,8 @@ public static class ApiResults
                 ErrorType.Problem => error.Description,
                 ErrorType.NotFound => error.Description,
                 ErrorType.Conflict => error.Description,
+                ErrorType.Failure => throw new NotImplementedException(),
+
                 _ => "An unexpected error occurred"
             };
 
@@ -46,6 +50,8 @@ public static class ApiResults
                 ErrorType.Problem => "https://tools.ietf.org/html/rfc7231#section-6.5.1",
                 ErrorType.NotFound => "https://tools.ietf.org/html/rfc7231#section-6.5.4",
                 ErrorType.Conflict => "https://tools.ietf.org/html/rfc7231#section-6.5.8",
+                ErrorType.Failure => throw new NotImplementedException(),
+
                 _ => "https://tools.ietf.org/html/rfc7231#section-6.6.1"
             };
 
@@ -56,6 +62,8 @@ public static class ApiResults
                 ErrorType.Problem => StatusCodes.Status400BadRequest,
                 ErrorType.NotFound => StatusCodes.Status404NotFound,
                 ErrorType.Conflict => StatusCodes.Status409Conflict,
+                ErrorType.Failure => throw new NotImplementedException(),
+
                 _ => StatusCodes.Status500InternalServerError
             };
 

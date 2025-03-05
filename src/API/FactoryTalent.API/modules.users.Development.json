@@ -19,7 +19,9 @@
           "ValidIssuers": [ "http://FactoryTalent.identity:8080/realms/factory" ]
         },
         "MetadataAddress": "http://FactoryTalent.identity:8080/realms/factory/.well-known/openid-configuration"
-      }
+      },
+      "UserAdmin" : "adm@factory.com",
+      "PasswordAdm" : "123456"
     }
   }
 }

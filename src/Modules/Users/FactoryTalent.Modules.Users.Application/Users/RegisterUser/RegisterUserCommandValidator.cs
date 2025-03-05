@@ -28,10 +28,23 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
 
     }
 
-    private static bool ContainUppercase(string password) => Regex.IsMatch(password, "[A-Z]");
-    private static bool ContainDigit(string password) => Regex.IsMatch(password, "[0-9]");
+    private static bool ContainUppercase(string password)
+    {
+        return Regex.IsMatch(password, "[A-Z]");
+    }
 
-    private static bool ContainSpecialCharacter(string password) => Regex.IsMatch(password, "[!@#$%^&*]");
+
+    private static bool ContainDigit(string password)
+    {
+        return Regex.IsMatch(password, "[0-9]");
+    }
+
+
+    private static bool ContainSpecialCharacter(string password)
+    {
+        return Regex.IsMatch(password, "[!@#$%^&*]");
+    }
+
 
     private static bool BeAtLeast18YearsOld(DateTime date)
     {
@@ -60,15 +73,17 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
     private static bool IsValidCpfAlgorithm(string cpf)
     {
         if (cpf.Length != 11)
-        { 
-            return false; 
+        {
+
+            return false;
+
         }
 
-        int[] multipliers1 = { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
-        int[] multipliers2 = { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
+        int[] multipliers1 = [10, 9, 8, 7, 6, 5, 4, 3, 2];
+        int[] multipliers2 = [11, 10, 9, 8, 7, 6, 5, 4, 3, 2];
 
-        int firstDigit = CalculateCpfDigit(cpf.Substring(0, 9), multipliers1);
-        int secondDigit = CalculateCpfDigit(cpf.Substring(0, 9) + firstDigit, multipliers2);
+        int firstDigit = CalculateCpfDigit(cpf[..9], multipliers1);
+        int secondDigit = CalculateCpfDigit(cpf[..9] + firstDigit, multipliers2);
 
         return cpf.EndsWith($"{firstDigit}{secondDigit}", StringComparison.CurrentCulture);
     }

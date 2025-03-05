@@ -29,7 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\API\FactoryTalent.API\FactoryTalent.API.csproj" />
-    <ProjectReference Include="..\TestUtilities\FactoryTalent.Modules.Users.TestUtilities.csproj" /> 
+    <ProjectReference Include="..\..\FactoryTalent.Modules.Users.Application\FactoryTalent.Modules.Users.Application.csproj" /> 
   </ItemGroup>
    
 

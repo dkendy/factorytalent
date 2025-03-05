@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   factorytalent.api:
     image: ${DOCKER_REGISTRY-}factorytalentapi
@@ -10,8 +8,10 @@ services:
       args:
         no_cache: "1"
     ports:
-      - 5000:5000
-      - 5001:5001
+      - 5080:8080
+    depends_on:
+      - factorytalent.database
+      - factorytalent.identity
 
   factorytalent.database:
     image: postgres:latest

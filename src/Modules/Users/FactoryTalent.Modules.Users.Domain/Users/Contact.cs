@@ -22,7 +22,6 @@ public sealed class Contact : Entity
             UserId = UserId
         };
 
-       
         return contact;
     }
 

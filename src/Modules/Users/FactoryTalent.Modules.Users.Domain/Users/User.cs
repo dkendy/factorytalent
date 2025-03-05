@@ -2,7 +2,7 @@
 
 namespace FactoryTalent.Modules.Users.Domain.Users;
 
-public sealed class User: Entity
+public sealed class User : Entity
 {
     private readonly List<Role> _roles = [];
 
@@ -29,13 +29,13 @@ public sealed class User: Entity
     public Guid? SuperiorId { get; private set; }
     public User? Superior { get; private set; }
 
-    public ICollection<User> Subordinates { get; private set; } = new List<User>(); 
+    public ICollection<User> Subordinates { get; private set; } = [];
 
     public string IdentityId { get; private set; }
 
-    public IReadOnlyCollection<Contact> Contacs => _contacts.ToList();
+    public IReadOnlyCollection<Contact> Contacs => [.. _contacts];
 
-    public IReadOnlyCollection<Role> Roles => _roles.ToList();
+    public IReadOnlyCollection<Role> Roles => [.. _roles];
 
     public static User Create(string email, string firstName, string lastName, string CPF, string address, DateTime birthDay, Guid? userIdUpper, string identityId, List<string> contacts)
     {
@@ -54,12 +54,12 @@ public sealed class User: Entity
 
         user._roles.Add(Role.Member);
 
-        List<Contact> _contacts = new();
+        List<Contact> _contacts = [];
         contacts.ForEach((s) =>
         {
-            _contacts.Add(Contact.Create( s, user.Id ));
+            _contacts.Add(Contact.Create(s, user.Id));
         });
-        
+
 
         user._contacts.AddRange(_contacts);
 

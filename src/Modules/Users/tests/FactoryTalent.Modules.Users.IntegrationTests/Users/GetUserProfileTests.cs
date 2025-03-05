@@ -1,10 +1,10 @@
 using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using FactoryTalent.Modules.Users.Application.Abstractions.Helper;
 using FactoryTalent.Modules.Users.Application.Users.GetUser;
 using FactoryTalent.Modules.Users.IntegrationTests.Abstractions; 
 using FactoryTalent.Modules.Users.Presentation.Users;
-using FactoryTalent.Modules.Users.TestUtilities.Helper;
 using FluentAssertions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 

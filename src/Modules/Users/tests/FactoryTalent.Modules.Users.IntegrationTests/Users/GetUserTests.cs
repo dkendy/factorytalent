@@ -1,9 +1,9 @@
 ﻿using FactoryTalent.Common.Domain;
+using FactoryTalent.Modules.Users.Application.Abstractions.Helper;
 using FactoryTalent.Modules.Users.Application.Users.GetUser;
 using FactoryTalent.Modules.Users.Application.Users.RegisterUser;
 using FactoryTalent.Modules.Users.Domain.Users;
-using FactoryTalent.Modules.Users.IntegrationTests.Abstractions; 
-using FactoryTalent.Modules.Users.TestUtilities.Helper;
+using FactoryTalent.Modules.Users.IntegrationTests.Abstractions;  
 using FluentAssertions;
 
 namespace FactoryTalent.Modules.Users.IntegrationTests.Users;

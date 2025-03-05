@@ -35,7 +35,7 @@ public sealed class UserRegisteredIntegrationEvent : IntegrationEvent
     public string CPF { get; init; }
 
     public string Address { get; init; }
-     
+
 
 
 }

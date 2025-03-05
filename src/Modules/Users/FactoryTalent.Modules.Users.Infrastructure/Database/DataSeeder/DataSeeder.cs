@@ -9,6 +9,7 @@ using FactoryTalent.Modules.Users.Infrastructure.Identity;
 using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using FactoryTalent.Modules.Users.Application.Abstractions.Helper;
 
 namespace FactoryTalent.Modules.Users.Infrastructure.Database.DataSeeder;
 
@@ -63,15 +64,15 @@ public class DataSeeder
 
         var userData = new
         {
-            username = "firstName@factory.com",
+            username = keycloakOptions.UserAdmin,
             emailVerified = true,
-            firstName = "firstName",
-            lastName = "lastName",
-            email = "firstName@factory.com",
+            firstName = "Adm",
+            lastName = "Adm",
+            email = keycloakOptions.UserAdmin,
             enabled = true,
             credentials = new[]
             {
-                new { type = "password", value = "123456", temporary = false }
+                new { type = "password", value = keycloakOptions.PasswordAdm, temporary = false }
             }
         };
 
@@ -82,7 +83,7 @@ public class DataSeeder
         await _httpClient.PostAsync($"{keycloakUrl}/admin/realms/{realm}/users", userContent);
 
          
-        HttpResponseMessage usersIdResponse = await _httpClient.GetAsync($"{keycloakUrl}/admin/realms/{realm}/users?username=firstName@factory.com");
+        HttpResponseMessage usersIdResponse = await _httpClient.GetAsync($"{keycloakUrl}/admin/realms/{realm}/users?username={keycloakOptions.UserAdmin}");
 
         if (!usersIdResponse.IsSuccessStatusCode)
         {
@@ -102,7 +103,7 @@ public class DataSeeder
 
         if(_userRegsitered == null)
         {
-            _userRepository.Insert(User.Create(userData.email, userData.firstName, userData.lastName, "95357881081", string.Empty, DateTime.Now, null, users[0].id, new List<string>()));
+            _userRepository.Insert(User.Create(userData.email, userData.firstName, userData.lastName, CpfGenerator.Create(), string.Empty, DateTime.Now, null, users[0].id, new List<string>()));
             await _unitOfWork.SaveChangesAsync();
         }
 

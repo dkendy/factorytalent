@@ -13,7 +13,9 @@
       "TokenUrl": "",
       "ConfidentialClientId": "",
       "ConfidentialClientSecret": "",
-      "PublicClientId": ""
+      "PublicClientId": "",
+      "UserAdmin" : "",
+      "PasswordAdm" : ""
     }
   }
 }

@@ -46,7 +46,7 @@ public abstract class BaseIntegrationTest : IDisposable
 
     protected async Task<string> GetAccessTokenAsync()
     {
-        return await GetAccessTokenAsync("firstName@factory.com", "123456");
+        return await GetAccessTokenAsync(_options.UserAdmin, _options.PasswordAdm);
     }
 
 
