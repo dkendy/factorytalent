@@ -41,7 +41,8 @@ public class GetUserPermissionTests : BaseIntegrationTest
             DateTime.Now.AddYears(-18), 
             null,
             string.Empty,
-            new List<string>()));
+            new List<string>(),
+            Role.Administrator));
 
         string identityId = DbContext.Users.Where(a => a.Id == result.Value).First().IdentityId;
 

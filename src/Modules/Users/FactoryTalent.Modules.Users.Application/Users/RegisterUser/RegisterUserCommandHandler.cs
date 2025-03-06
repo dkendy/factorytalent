@@ -3,6 +3,7 @@ using FactoryTalent.Common.Domain;
 using FactoryTalent.Modules.Users.Application.Abstractions.Data;
 using FactoryTalent.Modules.Users.Application.Abstractions.Identity;
 using FactoryTalent.Modules.Users.Domain.Users;
+using Polly;
 
 namespace FactoryTalent.Modules.Users.Application.Users.RegisterUser;
 
@@ -17,47 +18,57 @@ internal sealed class RegisterUserCommandHandler(
 
         User? @userDoc = await userRepository.GetByCPFAsync(request.CPF, cancellationToken);
 
-        if (@userDoc is null)
+        if (@userDoc is not null)
         {
             return Result.Failure<Guid>(UserErrors.ArgumentErrorCPF(request.CPF));
         }
 
         @userDoc = await userRepository.GetByEmailAsync(request.Email, cancellationToken);
 
-        if (@userDoc is null)
+        if (@userDoc is not null)
         {
             return Result.Failure<Guid>(UserErrors.ArgumentErrorEmail(request.CPF));
         }
 
+        string keyCloakGuid = "";
 
-        Result<string> result = await identityProviderService.RegisterUserAsync(
-            new UserModel(request.Email, request.Password, request.FirstName, request.LastName),
-            cancellationToken);
-        
-        string keyCloakGuid = ""; 
+        Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
+           .Handle<Exception>()
+           .WaitAndRetryForeverAsync(
+               retryAttempt => TimeSpan.FromSeconds(Math.Min(30, Math.Pow(2, retryAttempt))),
+               (exception, timeSpan) =>
+               {
+                   Console.WriteLine($"Keycloak not available, retrying in {timeSpan.TotalSeconds} seconds...");
+               });
 
-        if (result.IsFailure)
+
+       await retryPolicy.ExecuteAsync(async () =>
         {
-            Result<string> resultEmail = await identityProviderService.GetUserAsync(request.Email,
-               cancellationToken);
-            if (resultEmail.IsFailure)
+            Result<string> result = await identityProviderService.RegisterUserAsync(
+                            new UserModel(request.Email, request.Password, "Adm", "Adm"),
+                            new CancellationToken());
+
+            if (result.IsFailure)
             {
-                return Result.Failure<Guid>(result.Error);
+                Result<string> resultEmail = await identityProviderService.GetUserAsync(request.Email,
+                   cancellationToken);
+                if (!resultEmail.IsFailure) 
+                {
+                    keyCloakGuid = resultEmail.Value; 
+                }
+
+                return resultEmail;
             }
             else
             {
-                keyCloakGuid = resultEmail.Value;
+                keyCloakGuid = result.Value;
+            }
 
-            } 
-        }
-        else
-        {
-            keyCloakGuid = result.Value;
-        }
+            return result;
+        });
+  
 
-        
-
-        var user = User.Create(request.Email, request.FirstName, request.LastName, request.CPF, request.Address, DateTime.Now, request.superiorId, keyCloakGuid, request.contatos);
+        var user = User.Create(request.Email, request.FirstName, request.LastName, request.CPF, request.Address, DateTime.Now, request.superiorId, keyCloakGuid, request.contatos, Role.Administrator);
 
         userRepository.Insert(user);
 

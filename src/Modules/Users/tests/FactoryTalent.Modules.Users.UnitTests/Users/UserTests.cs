@@ -22,7 +22,8 @@ public class UserTests : BaseTest
             DateTime.Now.AddYears(-18),
             null,
             Guid.NewGuid().ToString(),
-            new List<string>());
+            new List<string>(),
+            Role.Administrator);
 
         // Assert
         user.Should().NotBeNull();
@@ -41,10 +42,11 @@ public class UserTests : BaseTest
             DateTime.Now.AddYears(-18),
             null,
             Guid.NewGuid().ToString(),
-            new List<string>());
+            new List<string>(),
+            Role.Administrator);
 
         // Assert
-        user.Roles.Single().Should().Be(Role.Member);
+        user.Roles.Single().Should().Be(Role.Administrator);
     }
 
     [Fact]
@@ -60,7 +62,8 @@ public class UserTests : BaseTest
             DateTime.Now.AddYears(-18),
             null,
             Guid.NewGuid().ToString(),
-            new List<string>());
+            new List<string>(),
+            Role.Administrator);
         // Assert
         UserRegisteredDomainEvent domainEvent =
             AssertDomainEventWasPublished<UserRegisteredDomainEvent>(user);
@@ -81,7 +84,8 @@ public class UserTests : BaseTest
             DateTime.Now.AddYears(-18),
             null,
             Guid.NewGuid().ToString(),
-            new List<string>());
+            new List<string>(),
+            Role.Administrator);
 
         // Act
         user.Update(user.LastName, user.FirstName, Faker.Address.FullAddress());
@@ -109,7 +113,8 @@ public class UserTests : BaseTest
             DateTime.Now.AddYears(-18),
             null,
             Guid.NewGuid().ToString(),
-            new List<string>());
+            new List<string>(),
+            Role.Administrator);
 
         user.ClearDomainEvents();
 
@@ -133,7 +138,8 @@ public class UserTests : BaseTest
             DateTime.Now.AddYears(-17),
             null,
             Guid.NewGuid().ToString(),
-            new List<string>());
+            new List<string>(),
+            Role.Administrator);
 
         user.ClearDomainEvents();
 

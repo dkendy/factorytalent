@@ -41,7 +41,7 @@ public class GetUserTests : BaseIntegrationTest
             DateTime.Now.AddYears(-18),
             null,
             string.Empty,
-            new List<string>()));
+            new List<string>(), Role.Administrator));
         Guid userId = result.Value;
 
         // Act

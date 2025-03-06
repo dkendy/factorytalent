@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
 		Directory.Build.props = Directory.Build.props
+		.files\factory-realm-export.json = .files\factory-realm-export.json
+		.postman\factory.postman_collection.json = .postman\factory.postman_collection.json
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -19,35 +21,35 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{7D9059
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{8B64FFF9-0571-4A85-8DDF-F5E8C42CA952}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.API", "src\API\FactoryTalent.API\FactoryTalent.API.csproj", "{FF154E75-CED8-4B8D-A16C-9B7027091325}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.API", "src\API\FactoryTalent.API\FactoryTalent.API.csproj", "{FF154E75-CED8-4B8D-A16C-9B7027091325}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Common.Application", "src\Common\FactoryTalent.Common.Application\FactoryTalent.Common.Application.csproj", "{9FDCCB2D-B8FB-4EAD-AFF7-891A2045455C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Common.Application", "src\Common\FactoryTalent.Common.Application\FactoryTalent.Common.Application.csproj", "{9FDCCB2D-B8FB-4EAD-AFF7-891A2045455C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Common.Domain", "src\Common\FactoryTalent.Common.Domain\FactoryTalent.Common.Domain.csproj", "{9854E3E1-62A5-4A97-B0B2-860A5947F671}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Common.Domain", "src\Common\FactoryTalent.Common.Domain\FactoryTalent.Common.Domain.csproj", "{9854E3E1-62A5-4A97-B0B2-860A5947F671}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Common.Infrastructure", "src\Common\FactoryTalent.Common.Infrastructure\FactoryTalent.Common.Infrastructure.csproj", "{ACC820DE-A465-4779-A2D9-DE5D363EE954}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Common.Infrastructure", "src\Common\FactoryTalent.Common.Infrastructure\FactoryTalent.Common.Infrastructure.csproj", "{ACC820DE-A465-4779-A2D9-DE5D363EE954}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Common.Presentation", "src\Common\FactoryTalent.Common.Presentation\FactoryTalent.Common.Presentation.csproj", "{5AF7F7FF-B6CF-45E9-BCA5-92AA39E98F1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Common.Presentation", "src\Common\FactoryTalent.Common.Presentation\FactoryTalent.Common.Presentation.csproj", "{5AF7F7FF-B6CF-45E9-BCA5-92AA39E98F1E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{1B1F4239-9C0C-4256-AA5B-AB888B55D3E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.Application", "src\Modules\Users\FactoryTalent.Modules.Users.Application\FactoryTalent.Modules.Users.Application.csproj", "{473E3D51-F4EE-4434-9760-E325B93F2956}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Modules.Users.Application", "src\Modules\Users\FactoryTalent.Modules.Users.Application\FactoryTalent.Modules.Users.Application.csproj", "{473E3D51-F4EE-4434-9760-E325B93F2956}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.Domain", "src\Modules\Users\FactoryTalent.Modules.Users.Domain\FactoryTalent.Modules.Users.Domain.csproj", "{C11A3016-388E-4CED-A516-EBAAF3C104A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Modules.Users.Domain", "src\Modules\Users\FactoryTalent.Modules.Users.Domain\FactoryTalent.Modules.Users.Domain.csproj", "{C11A3016-388E-4CED-A516-EBAAF3C104A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.Infrastructure", "src\Modules\Users\FactoryTalent.Modules.Users.Infrastructure\FactoryTalent.Modules.Users.Infrastructure.csproj", "{E4176DE0-8C96-44E1-8D26-DB85717D5264}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Modules.Users.Infrastructure", "src\Modules\Users\FactoryTalent.Modules.Users.Infrastructure\FactoryTalent.Modules.Users.Infrastructure.csproj", "{E4176DE0-8C96-44E1-8D26-DB85717D5264}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.IntegrationEvents", "src\Modules\Users\FactoryTalent.Modules.Users.IntegrationEvents\FactoryTalent.Modules.Users.IntegrationEvents.csproj", "{90EE9663-89DB-4B67-8495-75B2E0540393}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Modules.Users.IntegrationEvents", "src\Modules\Users\FactoryTalent.Modules.Users.IntegrationEvents\FactoryTalent.Modules.Users.IntegrationEvents.csproj", "{90EE9663-89DB-4B67-8495-75B2E0540393}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.Presentation", "src\Modules\Users\FactoryTalent.Modules.Users.Presentation\FactoryTalent.Modules.Users.Presentation.csproj", "{1B204DD4-71B7-4E40-B62B-D0099511780D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Modules.Users.Presentation", "src\Modules\Users\FactoryTalent.Modules.Users.Presentation\FactoryTalent.Modules.Users.Presentation.csproj", "{1B204DD4-71B7-4E40-B62B-D0099511780D}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{428C82D3-D616-4765-8A6A-DE50541CE102}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F1815B00-9FF2-44C4-98DB-602730FB4340}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.IntegrationTests", "src\Modules\Users\tests\FactoryTalent.Modules.Users.IntegrationTests\FactoryTalent.Modules.Users.IntegrationTests.csproj", "{4CACA9A5-EB43-4469-905D-FDCB4BF30FA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Modules.Users.IntegrationTests", "src\Modules\Users\tests\FactoryTalent.Modules.Users.IntegrationTests\FactoryTalent.Modules.Users.IntegrationTests.csproj", "{4CACA9A5-EB43-4469-905D-FDCB4BF30FA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FactoryTalent.Modules.Users.UnitTests", "src\Modules\Users\tests\FactoryTalent.Modules.Users.UnitTests\FactoryTalent.Modules.Users.UnitTests.csproj", "{51DABBEE-9BDD-4F69-87A0-63F9342858D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FactoryTalent.Modules.Users.UnitTests", "src\Modules\Users\tests\FactoryTalent.Modules.Users.UnitTests\FactoryTalent.Modules.Users.UnitTests.csproj", "{51DABBEE-9BDD-4F69-87A0-63F9342858D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -128,6 +130,9 @@ Global
 		{1B204DD4-71B7-4E40-B62B-D0099511780D} = {1B1F4239-9C0C-4256-AA5B-AB888B55D3E2}
 		{F1815B00-9FF2-44C4-98DB-602730FB4340} = {1B1F4239-9C0C-4256-AA5B-AB888B55D3E2}
 		{4CACA9A5-EB43-4469-905D-FDCB4BF30FA7} = {F1815B00-9FF2-44C4-98DB-602730FB4340}
-		{51DABBEE-9BDD-4F69-87A0-63F9342858D2} = {F1815B00-9FF2-44C4-98DB-602730FB4340} 
+		{51DABBEE-9BDD-4F69-87A0-63F9342858D2} = {F1815B00-9FF2-44C4-98DB-602730FB4340}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {870ABCB2-3870-4A19-B969-1160466775C3}
 	EndGlobalSection
 EndGlobal

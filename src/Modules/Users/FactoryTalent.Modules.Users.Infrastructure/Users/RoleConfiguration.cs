@@ -13,6 +13,7 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
         builder.HasKey(r => r.Name);
 
         builder.Property(r => r.Name).HasMaxLength(50);
+         
 
         builder
             .HasMany<User>()
@@ -25,7 +26,9 @@ internal sealed class RoleConfiguration : IEntityTypeConfiguration<Role>
             });
 
         builder.HasData(
-            Role.Member,
-            Role.Administrator);
+            Role.Manager,
+            Role.Administrator,
+            Role.Employee,
+            Role.Intern);
     }
 }

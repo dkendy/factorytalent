@@ -14,24 +14,22 @@ using FactoryTalent.Modules.Users.Application.Abstractions.Identity;
 using FactoryTalent.Common.Domain;
 using System.Threading;
 using Polly;
+using FactoryTalent.Modules.Users.Application.Users.RegisterUser;
+using MediatR;
+using Polly.Telemetry;
 
 namespace FactoryTalent.Modules.Users.Infrastructure.Database.DataSeeder;
 
 public class DataSeeder
-{
-    private readonly IUserRepository _userRepository; 
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IServiceProvider _provider;
-    private readonly IIdentityProviderService _identityProviderService;
+{ 
+    private readonly IServiceProvider _provider; 
+    private readonly ISender _sender;
 
 
-    public DataSeeder(IServiceProvider provider, IUserRepository userRepository, IUnitOfWork unitOfWork,
-        IIdentityProviderService identityProviderService)
+    public DataSeeder(IServiceProvider provider, ISender sender)
     {
-        _userRepository = userRepository; 
-        _unitOfWork = unitOfWork;
-        _provider = provider;
-        _identityProviderService = identityProviderService;
+        _sender = sender;
+         _provider = provider; 
     }
 
     public async Task SeedAsync()
@@ -40,49 +38,28 @@ public class DataSeeder
         KeyCloakOptions keycloakOptions = _provider
                    .GetRequiredService<IOptions<KeyCloakOptions>>().Value;
 
-        string usersJson = "";
+        Result<Guid> result = await _sender.Send(new RegisterUserCommand(
+              keycloakOptions.UserAdmin,
+              keycloakOptions.PasswordAdm,
+              "Adm",
+              "Adm",
+              CpfGenerator.Create(),
+              DateTime.Now.AddYears(-18),
+              null,
+              "-",
+              new List<string>(),
+              Role.Administrator
+              ));
 
-        Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
-            .Handle<Exception>() 
-            .WaitAndRetryForeverAsync(
-                retryAttempt => TimeSpan.FromSeconds(Math.Min(30, Math.Pow(2, retryAttempt))), 
-                (exception, timeSpan) =>
-                {
-                    Console.WriteLine($"Keycloak not available, retrying in {timeSpan.TotalSeconds} seconds...");
-                });
 
-        await retryPolicy.ExecuteAsync(async () =>
+        if (!result.IsSuccess && result.Error.Code != "Users.ArgumentError")
         {
-            Result<string> result = await _identityProviderService.RegisterUserAsync(
-                new UserModel(keycloakOptions.UserAdmin, keycloakOptions.PasswordAdm, "Adm", "Adm"),
-                new CancellationToken());
-
-            if (result.IsSuccess)
-            {
-                Console.WriteLine("Admin user registered successfully.");
-                usersJson = result.Value;
-            }
-            else
-            {
-                throw new Exception("Failed to register admin user.");
-            }
-        }); 
-
-        User? _userRegsitered = await _userRepository.GetByEmailAsync(keycloakOptions.UserAdmin);
-
-        if(_userRegsitered == null)
-        {
-            _userRepository.Insert(User.Create(keycloakOptions.UserAdmin, "Adm", "Adm", CpfGenerator.Create(), string.Empty, DateTime.Now, null, usersJson, new List<string>()));
-            await _unitOfWork.SaveChangesAsync();
+            throw new ArgumentException(result.Error.Description);
         }
          
 
     }
 }
-
-public class KeycloakUser
-{
-    public string id { get; set; }
-}
+ 
 
 

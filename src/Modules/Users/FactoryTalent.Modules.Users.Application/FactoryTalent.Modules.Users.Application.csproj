@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="Polly" Version="8.5.2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\FactoryTalent.Common.Application\FactoryTalent.Common.Application.csproj" />

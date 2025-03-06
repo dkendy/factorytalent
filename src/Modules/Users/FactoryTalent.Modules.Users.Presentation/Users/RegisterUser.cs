@@ -2,6 +2,7 @@
 using FactoryTalent.Common.Presentation.Endpoints;
 using FactoryTalent.Common.Presentation.Results;
 using FactoryTalent.Modules.Users.Application.Users.RegisterUser;
+using FactoryTalent.Modules.Users.Domain.Users;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +25,8 @@ public sealed class RegisterUser : IEndpoint
                 request.BirthDate,
                 request.SuperiorId,
                 request.Address,
-                request.Contatos
+                request.Contatos,
+                request.Role
                 ));
 
             return result.Match(Results.Ok, ApiResults.Problem);
@@ -51,5 +53,7 @@ public sealed class RegisterUser : IEndpoint
 
         public Guid? SuperiorId { get; init; }
         public List<string> Contatos { get; init; } = new List<string>();
+
+        public Role Role { get; init; } = Role.Employee;
     }
 }

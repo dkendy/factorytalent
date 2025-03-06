@@ -64,7 +64,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"Milan M\",\r\n  \"lastName\": \"Jovanovic\"\r\n}",
+							"raw": "{\r\n  \"firstName\": \"User 1\",\r\n  \"lastName\": \"User 1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -114,12 +114,12 @@
 								},
 								{
 									"key": "username",
-									"value": "milan@test.com",
+									"value": "adm@factory.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "123456",
+									"value": "P@ssw0rd1234",
 									"type": "text"
 								}
 							]

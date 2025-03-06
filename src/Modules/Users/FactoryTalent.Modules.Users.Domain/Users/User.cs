@@ -37,7 +37,7 @@ public sealed class User : Entity
 
     public IReadOnlyCollection<Role> Roles => [.. _roles];
 
-    public static User Create(string email, string firstName, string lastName, string CPF, string address, DateTime birthDay, Guid? userIdUpper, string identityId, List<string> contacts)
+    public static User Create(string email, string firstName, string lastName, string CPF, string address, DateTime birthDay, Guid? userIdUpper, string identityId, List<string> contacts, Role role)
     {
         var user = new User
         {
@@ -52,7 +52,7 @@ public sealed class User : Entity
             SuperiorId = userIdUpper
         };
 
-        user._roles.Add(Role.Member);
+        user._roles.Add(role);
 
         List<Contact> _contacts = [];
         contacts.ForEach((s) =>
