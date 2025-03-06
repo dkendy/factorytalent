@@ -16,6 +16,17 @@ internal sealed class KeyCloakClient(HttpClient httpClient)
         return ExtractIdentityIdFromLocationHeader(httpResponseMessage);
     }
 
+    internal async Task<string> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        HttpResponseMessage httpResponseMessage = await httpClient.GetAsync(
+            $"users?email={email}",
+            cancellationToken);
+
+        httpResponseMessage.EnsureSuccessStatusCode();
+
+        return ExtractIdentityIdFromLocationHeader(httpResponseMessage);
+    }
+
     private static string ExtractIdentityIdFromLocationHeader(
         HttpResponseMessage httpResponseMessage)
     {

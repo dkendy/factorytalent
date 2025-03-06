@@ -22,8 +22,13 @@ public static class UserErrors
     }
 
 
-    public static Error ArgumentError(string CPF)
+    public static Error ArgumentErrorCPF(string CPF)
     {
         return Error.NotFound("Users.ArgumentError", $"A record with this document already exists - {CPF}");
+    }
+
+    public static Error ArgumentErrorEmail(string email)
+    {
+        return Error.NotFound("Users.ArgumentError", $"A record with this e-mail already exists - {email}");
     }
 }

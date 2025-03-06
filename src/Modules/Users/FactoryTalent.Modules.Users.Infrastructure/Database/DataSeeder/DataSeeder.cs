@@ -10,23 +10,28 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using FactoryTalent.Modules.Users.Application.Abstractions.Helper;
+using FactoryTalent.Modules.Users.Application.Abstractions.Identity;
+using FactoryTalent.Common.Domain;
+using System.Threading;
+using Polly;
 
 namespace FactoryTalent.Modules.Users.Infrastructure.Database.DataSeeder;
 
 public class DataSeeder
 {
-    private readonly IUserRepository _userRepository;
-    private readonly HttpClient _httpClient;
+    private readonly IUserRepository _userRepository; 
     private readonly IUnitOfWork _unitOfWork;
     private readonly IServiceProvider _provider;
+    private readonly IIdentityProviderService _identityProviderService;
 
 
-    public DataSeeder(IServiceProvider provider, IUserRepository userRepository,  HttpClient httpClient, IUnitOfWork unitOfWork)
+    public DataSeeder(IServiceProvider provider, IUserRepository userRepository, IUnitOfWork unitOfWork,
+        IIdentityProviderService identityProviderService)
     {
-        _userRepository = userRepository;
-        _httpClient = httpClient;
+        _userRepository = userRepository; 
         _unitOfWork = unitOfWork;
         _provider = provider;
+        _identityProviderService = identityProviderService;
     }
 
     public async Task SeedAsync()
@@ -35,81 +40,42 @@ public class DataSeeder
         KeyCloakOptions keycloakOptions = _provider
                    .GetRequiredService<IOptions<KeyCloakOptions>>().Value;
 
-        string? keycloakUrl = keycloakOptions.AdminUrl.Split("/admin")[0];
+        string usersJson = "";
 
-        string? realm = "factory";
+        Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
+            .Handle<Exception>() 
+            .WaitAndRetryForeverAsync(
+                retryAttempt => TimeSpan.FromSeconds(Math.Min(30, Math.Pow(2, retryAttempt))), 
+                (exception, timeSpan) =>
+                {
+                    Console.WriteLine($"Keycloak not available, retrying in {timeSpan.TotalSeconds} seconds...");
+                });
 
-        using var content = new FormUrlEncodedContent(new Dictionary<string, string>
-            {
-                { "grant_type", "client_credentials" },
-                { "client_id", "factory-confidential-client" },
-                { "client_secret","PzotcrvZRF9BHCKcUxdKfHWlIPECG49k" },
-                { "scope" , "openid" }
-            });
-
-        HttpResponseMessage tokenResponse = await _httpClient.PostAsync($"{keycloakUrl}/realms/{realm}/protocol/openid-connect/token", content
-            );
-
-        if (!tokenResponse.IsSuccessStatusCode)
-        {   
-            throw new Exception("Erro ao obter token de admin do Keycloak.");
-        }
-
-        string tokenJson = await tokenResponse.Content.ReadAsStringAsync();
-        Dictionary<string, object>? tokenObj = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(tokenJson);
-        string accessToken = tokenObj?["access_token"].ToString();
-
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-
-        var userData = new
+        await retryPolicy.ExecuteAsync(async () =>
         {
-            username = keycloakOptions.UserAdmin,
-            emailVerified = true,
-            firstName = "Adm",
-            lastName = "Adm",
-            email = keycloakOptions.UserAdmin,
-            enabled = true,
-            credentials = new[]
+            Result<string> result = await _identityProviderService.RegisterUserAsync(
+                new UserModel(keycloakOptions.UserAdmin, keycloakOptions.PasswordAdm, "Adm", "Adm"),
+                new CancellationToken());
+
+            if (result.IsSuccess)
             {
-                new { type = "password", value = keycloakOptions.PasswordAdm, temporary = false }
+                Console.WriteLine("Admin user registered successfully.");
+                usersJson = result.Value;
             }
-        };
+            else
+            {
+                throw new Exception("Failed to register admin user.");
+            }
+        }); 
 
-        string jsonString = JsonConvert.SerializeObject(userData);
-
-        using var userContent = new StringContent(jsonString, Encoding.UTF8, "application/json");
-
-        await _httpClient.PostAsync($"{keycloakUrl}/admin/realms/{realm}/users", userContent);
-
-         
-        HttpResponseMessage usersIdResponse = await _httpClient.GetAsync($"{keycloakUrl}/admin/realms/{realm}/users?username={keycloakOptions.UserAdmin}");
-
-        if (!usersIdResponse.IsSuccessStatusCode)
-        {
-            throw new Exception("Erro ao buscar usuário no Keycloak.");
-        }
-
-        string usersJson = await usersIdResponse.Content.ReadAsStringAsync();
-
-        List<KeycloakUser>? users = System.Text.Json.JsonSerializer.Deserialize<List<KeycloakUser>>(usersJson);
-
-        if (users == null || users.Count == 0)
-        {
-            throw new Exception("Usuário não encontrado no Keycloak.");
-        }
-
-        User? _userRegsitered = await _userRepository.GetByEmailAsync(userData.email);
+        User? _userRegsitered = await _userRepository.GetByEmailAsync(keycloakOptions.UserAdmin);
 
         if(_userRegsitered == null)
         {
-            _userRepository.Insert(User.Create(userData.email, userData.firstName, userData.lastName, CpfGenerator.Create(), string.Empty, DateTime.Now, null, users[0].id, new List<string>()));
+            _userRepository.Insert(User.Create(keycloakOptions.UserAdmin, "Adm", "Adm", CpfGenerator.Create(), string.Empty, DateTime.Now, null, usersJson, new List<string>()));
             await _unitOfWork.SaveChangesAsync();
         }
-
- 
-
-
+         
 
     }
 }

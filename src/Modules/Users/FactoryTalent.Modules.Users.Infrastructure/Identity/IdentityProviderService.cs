@@ -35,4 +35,22 @@ internal sealed class IdentityProviderService(KeyCloakClient keyCloakClient, ILo
             return Result.Failure<string>(IdentityProviderErrors.EmailIsNotUnique);
         }
     }
+
+    // POST /admin/realms/{realm}/users
+    public async Task<Result<string>> GetUserAsync(string email, CancellationToken cancellationToken = default)
+    {
+        
+        try
+        {
+            string identityId = await keyCloakClient.GetUserByEmailAsync(email, cancellationToken);
+
+            return identityId;
+        }
+        catch (HttpRequestException exception) when (exception.StatusCode == HttpStatusCode.Conflict)
+        {
+            logger.LogError(exception, "User search failed");
+
+            return Result.Failure<string>(IdentityProviderErrors.SearchError);
+        }
+    }
 }

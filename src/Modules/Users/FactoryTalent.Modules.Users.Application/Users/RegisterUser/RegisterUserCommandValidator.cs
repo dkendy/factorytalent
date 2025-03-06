@@ -9,11 +9,11 @@ internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterU
     {
         RuleFor(c => c.FirstName).NotEmpty();
         RuleFor(c => c.LastName).NotEmpty();
-        RuleFor(c => c.Email).EmailAddress();
-        RuleFor(c => c.Password).MinimumLength(6);
+        RuleFor(c => c.Email).EmailAddress(); 
         RuleFor(c => c.birthdate).NotNull()
             .Must(BeAtLeast18YearsOld).WithMessage("User must be at least 18 years old.");
         RuleFor(user => user.Password)
+            .MinimumLength(6)
             .NotEmpty().WithMessage("Password is required.")
             .MinimumLength(8).WithMessage("Password must be at least 8 characters long.")
             .Must(ContainUppercase).WithMessage("Password must contain at least one uppercase letter.")

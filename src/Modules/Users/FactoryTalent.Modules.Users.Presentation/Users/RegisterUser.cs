@@ -50,6 +50,6 @@ public sealed class RegisterUser : IEndpoint
         public DateTime BirthDate { get; init; }
 
         public Guid? SuperiorId { get; init; }
-        public List<string> Contatos { get; init; }
+        public List<string> Contatos { get; init; } = new List<string>();
     }
 }

@@ -16,6 +16,11 @@ internal sealed class UserRepository(UsersDbContext context) : IUserRepository
         return await context.Users.SingleOrDefaultAsync(u => u.Email == email, cancellationToken);
     }
 
+    public async Task<User?> GetByCPFAsync(string cpf, CancellationToken cancellationToken = default)
+    {
+        return await context.Users.SingleOrDefaultAsync(u => u.CPF == cpf, cancellationToken);
+    }
+
     public void Insert(User user)
     {
         foreach (Role role in user.Roles)
