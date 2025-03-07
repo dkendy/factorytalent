@@ -100,6 +100,8 @@ public static class InfrastructureConfiguration
                 tracing.AddOtlpExporter();
             });
 
+        services.AddHttpContextAccessor();
+
         return services;
     }
 }

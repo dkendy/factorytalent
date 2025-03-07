@@ -1,8 +1,12 @@
 using System.Net;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 using FactoryTalent.Modules.Users.Application.Abstractions.Helper;
 using FactoryTalent.Modules.Users.Application.Users.GetUser;
+using FactoryTalent.Modules.Users.Domain.Users;
 using FactoryTalent.Modules.Users.IntegrationTests.Abstractions; 
 using FactoryTalent.Modules.Users.Presentation.Users;
 using FluentAssertions;
@@ -51,7 +55,7 @@ public class GetUserProfileTests : BaseIntegrationTest
     private async Task<string> RegisterUserAndGetAccessTokenAsync(string email, string password)
     {
         
-        var request = new RegisterUser.Request
+        var request = new 
         {
             Email = email,
             Password = password,
@@ -60,15 +64,23 @@ public class GetUserProfileTests : BaseIntegrationTest
             BirthDate = DateTime.Now.AddYears(-18),
             CPF = CpfGenerator.Create(),
             Address = Faker.Address.FullAddress(),
-            Contatos = new List<string>(),
-            SuperiorId = null
-        };
+            Contatos = new List<string>(), 
+            Role = "Administrator"
+        }; 
 
+        string json = JsonSerializer.Serialize(request);
+         
+        using var content = new StringContent(json, Encoding.UTF8, "application/json");
+         
         string _token = await GetAccessTokenAsync();
 
         HttpClient.DefaultRequestHeaders.Clear();
         HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _token);
-        await HttpClient.PostAsJsonAsync("users/register", request);
+ 
+        HttpResponseMessage response = await HttpClient.PostAsync("users/register", content);
+
+        response.EnsureSuccessStatusCode();
+
 
         string accessToken = await GetAccessTokenAsync(request.Email, request.Password);
 

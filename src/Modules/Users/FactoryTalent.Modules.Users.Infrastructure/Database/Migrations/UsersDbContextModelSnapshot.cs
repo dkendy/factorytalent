@@ -83,6 +83,10 @@ partial class UsersDbContextModelSnapshot : ModelSnapshot
                     .HasColumnType("character varying(50)")
                     .HasColumnName("name");
 
+                b.Property<int>("Level")
+                    .HasColumnType("integer")
+                    .HasColumnName("level");
+
                 b.HasKey("Name")
                     .HasName("pk_roles");
 
@@ -91,11 +95,23 @@ partial class UsersDbContextModelSnapshot : ModelSnapshot
                 b.HasData(
                     new
                     {
-                        Name = "Member"
+                        Name = "Manager",
+                        Level = 3
                     },
                     new
                     {
-                        Name = "Administrator"
+                        Name = "Administrator",
+                        Level = 4
+                    },
+                    new
+                    {
+                        Name = "Employee",
+                        Level = 2
+                    },
+                    new
+                    {
+                        Name = "Intern",
+                        Level = 1
                     });
             });
 
@@ -191,17 +207,17 @@ partial class UsersDbContextModelSnapshot : ModelSnapshot
                     new
                     {
                         PermissionCode = "users:read",
-                        RoleName = "Member"
+                        RoleName = "Manager"
                     },
                     new
                     {
                         PermissionCode = "users:update",
-                        RoleName = "Member"
+                        RoleName = "Manager"
                     },
                     new
                     {
                         PermissionCode = "users:add",
-                        RoleName = "Member"
+                        RoleName = "Manager"
                     },
                     new
                     {
@@ -217,6 +233,26 @@ partial class UsersDbContextModelSnapshot : ModelSnapshot
                     {
                         PermissionCode = "users:add",
                         RoleName = "Administrator"
+                    },
+                    new
+                    {
+                        PermissionCode = "users:read",
+                        RoleName = "Employee"
+                    },
+                    new
+                    {
+                        PermissionCode = "users:update",
+                        RoleName = "Employee"
+                    },
+                    new
+                    {
+                        PermissionCode = "users:read",
+                        RoleName = "Intern"
+                    },
+                    new
+                    {
+                        PermissionCode = "users:update",
+                        RoleName = "Intern"
                     });
             });
 

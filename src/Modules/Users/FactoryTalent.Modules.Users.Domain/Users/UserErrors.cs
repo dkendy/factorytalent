@@ -27,6 +27,11 @@ public static class UserErrors
         return Error.NotFound("Users.ArgumentError", $"A record with this document already exists - {CPF}");
     }
 
+    public static Error ArgumentLevelError(string roleName)
+    {
+        return Error.NotFound("Users.ArgumentError", $" Role registration {roleName} - for a new user is not permitted");
+    }
+
     public static Error ArgumentErrorEmail(string email)
     {
         return Error.NotFound("Users.ArgumentError", $"A record with this e-mail already exists - {email}");

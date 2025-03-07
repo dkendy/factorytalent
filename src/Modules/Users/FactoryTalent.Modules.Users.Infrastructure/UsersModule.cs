@@ -75,8 +75,14 @@ public static class UsersModule
 
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<UsersDbContext>());
 
-     
+
         services.AddScoped<DataSeeder>();
+
+
+        services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.Converters.Add(new RoleJsonConverter());
+        });
     }
 
     private static void AddDomainEventHandlers(this IServiceCollection services)

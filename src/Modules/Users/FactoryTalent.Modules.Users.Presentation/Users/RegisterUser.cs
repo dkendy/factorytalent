@@ -7,6 +7,7 @@ using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Newtonsoft.Json;
 
 namespace FactoryTalent.Modules.Users.Presentation.Users;
 
@@ -54,6 +55,7 @@ public sealed class RegisterUser : IEndpoint
         public Guid? SuperiorId { get; init; }
         public List<string> Contatos { get; init; } = new List<string>();
 
+        [JsonConverter(typeof(RoleJsonConverter))]
         public Role Role { get; init; } = Role.Employee;
     }
 }

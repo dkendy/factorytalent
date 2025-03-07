@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FactoryTalent.Modules.Users.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20250304152621_CreateAll")]
-    partial class CreateAll
+    [Migration("20250307005304_InitialDatabase")]
+    partial class InitialDatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,6 +86,10 @@ namespace FactoryTalent.Modules.Users.Infrastructure.Database.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("name");
 
+                    b.Property<int>("Level")
+                        .HasColumnType("integer")
+                        .HasColumnName("level");
+
                     b.HasKey("Name")
                         .HasName("pk_roles");
 
@@ -94,11 +98,23 @@ namespace FactoryTalent.Modules.Users.Infrastructure.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Name = "Member"
+                            Name = "Manager",
+                            Level = 3
                         },
                         new
                         {
-                            Name = "Administrator"
+                            Name = "Administrator",
+                            Level = 4
+                        },
+                        new
+                        {
+                            Name = "Employee",
+                            Level = 2
+                        },
+                        new
+                        {
+                            Name = "Intern",
+                            Level = 1
                         });
                 });
 
@@ -194,17 +210,17 @@ namespace FactoryTalent.Modules.Users.Infrastructure.Database.Migrations
                         new
                         {
                             PermissionCode = "users:read",
-                            RoleName = "Member"
+                            RoleName = "Manager"
                         },
                         new
                         {
                             PermissionCode = "users:update",
-                            RoleName = "Member"
+                            RoleName = "Manager"
                         },
                         new
                         {
                             PermissionCode = "users:add",
-                            RoleName = "Member"
+                            RoleName = "Manager"
                         },
                         new
                         {
@@ -220,6 +236,26 @@ namespace FactoryTalent.Modules.Users.Infrastructure.Database.Migrations
                         {
                             PermissionCode = "users:add",
                             RoleName = "Administrator"
+                        },
+                        new
+                        {
+                            PermissionCode = "users:read",
+                            RoleName = "Employee"
+                        },
+                        new
+                        {
+                            PermissionCode = "users:update",
+                            RoleName = "Employee"
+                        },
+                        new
+                        {
+                            PermissionCode = "users:read",
+                            RoleName = "Intern"
+                        },
+                        new
+                        {
+                            PermissionCode = "users:update",
+                            RoleName = "Intern"
                         });
                 });
 

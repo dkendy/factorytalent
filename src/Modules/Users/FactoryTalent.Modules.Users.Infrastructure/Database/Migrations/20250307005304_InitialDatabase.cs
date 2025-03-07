@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FactoryTalent.Modules.Users.Infrastructure.Database.Migrations;
 
 /// <inheritdoc />
-public partial class CreateAll : Migration
+public partial class InitialDatabase : Migration
 {
     /// <inheritdoc />
     protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,7 +33,8 @@ public partial class CreateAll : Migration
             schema: "users",
             columns: table => new
             {
-                name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                name = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                level = table.Column<int>(type: "integer", nullable: false)
             },
             constraints: table =>
             {
@@ -156,25 +157,31 @@ public partial class CreateAll : Migration
         migrationBuilder.InsertData(
             schema: "users",
             table: "roles",
-            column: "name",
-            values: new object[]
+            columns:[ "name", "level" ],
+            values: new object[,]
             {
-                "Administrator",
-                "Member"
+                { "Administrator", 4 },
+                { "Employee", 2 },
+                { "Intern", 1 },
+                { "Manager", 3 }
             });
 
         migrationBuilder.InsertData(
             schema: "users",
             table: "role_permissions",
-            columns: ["permission_code", "role_name"],
+            columns: ["permission_code", "role_name" ],
             values: new object[,]
             {
                 { "users:add", "Administrator" },
-                { "users:add", "Member" },
+                { "users:add", "Manager" },
                 { "users:read", "Administrator" },
-                { "users:read", "Member" },
+                { "users:read", "Employee" },
+                { "users:read", "Intern" },
+                { "users:read", "Manager" },
                 { "users:update", "Administrator" },
-                { "users:update", "Member" }
+                { "users:update", "Employee" },
+                { "users:update", "Intern" },
+                { "users:update", "Manager" }
             });
 
         migrationBuilder.CreateIndex(
