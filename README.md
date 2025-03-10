@@ -1,15 +1,17 @@
-
 ![Factory](./themes/factory.jpeg)
 
 # Factory Talent API Playground
 
 ## Overview
-This project is built using .NET 8 and C#. It includes a Docker setup for containerization and uses Keycloak as the Identity Provider. Additionally, Jaeger is integrated for distributed tracing. For proof of concept only – not ready for production
+This project is built using .NET 8 and C#. It includes a Docker setup for containerization and uses Keycloak as the Identity Provider. Additionally, Jaeger is integrated for distributed tracing. For proof of concept only â€“ not ready for production
 
-
-## Implementation flow: 
+## Implementation flow 
 
 The Docker Compose setup initiates all services. Once Keycloak is ready, it can notify the user, and the .NET Core API registers the user adm@factory.com with the password P@ssw0rd1234. The frontend becomes available for login. Only authenticated users with the appropriate roles are authorized to register new users at the same level or lower. All security settings, including the secret key, are predefined and cannot be altered, as doing so could cause certain services to stop functioning.
+
+#Possible Solution for Service Startup Issues
+
+In case of issues with starting the services, delete the .container/identity folder and the factorytalent_pgdata volume in Docker.
 
 ## Prerequisites
 - .NET 8 SDK
@@ -88,6 +90,29 @@ This table provides an overview of the available services, their descriptions, U
 
 Import the Postman Collection file from the `./postman` directory.
 
+## Roles for API users/register
+
+On-field `role` can be filled by these words:
+
+| Administrator  | Manager                     | Employee                         | Intern |
+|----------|---------------------------------|-----------------------------|-------------|
+```bash
+{
+  "email": "string",
+  "password": "string",
+  "firstName": "string",
+  "lastName": "string",
+  "cpf": "string",
+  "address": "string",
+  "birthDate": "2025-03-10T02:31:53.302Z",
+  "superiorId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "contatos": [
+    "string"
+  ],
+  "role": {}
+}
+```
+ 
 
 ## Contributing
 Contributions are welcome! Please fork the repository and submit a pull request.
