@@ -1,4 +1,8 @@
 ﻿using System.Net.Http.Json;
+using MassTransit;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FactoryTalent.Modules.Users.Infrastructure.Identity;
 
@@ -23,8 +27,23 @@ internal sealed class KeyCloakClient(HttpClient httpClient)
             cancellationToken);
 
         httpResponseMessage.EnsureSuccessStatusCode();
+        string contentString = await httpResponseMessage.Content.ReadAsStringAsync(cancellationToken);
+        var jsonArray = JArray.Parse(contentString);
 
-        return ExtractIdentityIdFromLocationHeader(httpResponseMessage);
+        if (jsonArray.Count == 0 || jsonArray[0]["id"] == null || string.IsNullOrEmpty(jsonArray[0]["id"]!.ToString()))
+        {
+            throw new InvalidOperationException("User ID not found or is empty.");
+        }
+
+        return jsonArray[0]["id"]!.ToString();
+    }
+
+    internal async Task DeleteUserAsync(Guid identityId, CancellationToken cancellationToken = default)
+    {
+        HttpResponseMessage httpResponseMessage = await httpClient.DeleteAsync(
+            $"users/{identityId}",
+            cancellationToken);
+        httpResponseMessage.EnsureSuccessStatusCode();
     }
 
     private static string ExtractIdentityIdFromLocationHeader(

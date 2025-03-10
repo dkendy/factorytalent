@@ -656,9 +656,9 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "PzotcrvZRF9BHCKcUxdKfHWlIPECG49k",
-      "redirectUris": ["/*"],
-      "webOrigins": ["/*"],
+      "secret": "O8Yj7nqaWOXag0Hlli0yqE3E2AhrHS06",
+      "redirectUris": [ "/*" ],
+      "webOrigins": [ "/*" ],
       "notBefore": 0,
       "bearerOnly": false,
       "consentRequired": false,
@@ -755,7 +755,7 @@
             "ownerManagedAccess": false,
             "attributes": {},
             "_id": "c4b67c60-3740-4d48-999c-830869bf6ea9",
-            "uris": ["/*"]
+            "uris": [ "/*" ]
           }
         ],
         "policies": [

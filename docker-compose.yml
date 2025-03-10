@@ -36,6 +36,7 @@ services:
     volumes:
       - ./.containers/identity:/opt/keycloak/data
       - ./.files:/opt/keycloak/data/import
+      - ./themes:/opt/keycloak/themes
     ports:
       - 18080:8080
 
@@ -62,6 +63,22 @@ services:
       - 4317:4317
       - 4318:4318
       - 16686:16686
+
+  factorytalent.frontend:
+    build:
+      context: ./factory-react
+      dockerfile: Dockerfile
+    container_name: factorytalent.Frontend
+    ports:
+      - 3000:3000
+    environment: 
+      - VITE_APP_KEYCLOAK_URL=http://factorytalent.identity
+      - VITE_APP_KEYCLOAK_REALM=factory
+      - VITE_APP_KEYCLOAK_CLIENT_ID=factory-public-client
+      - VITE_APP_BACKEND=http://factorytalent.api
+      - NODE_ENV=production
+    depends_on:
+      - factorytalent.api
 
 volumes:
   pgdata:

@@ -17,7 +17,8 @@ internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permiss
         builder.HasData(
             Permission.GetUser,
             Permission.ModifyUser,
-            Permission.AddUser);
+            Permission.AddUser,
+            Permission.DeleteUser);
 
         builder
             .HasMany<Role>()
@@ -30,11 +31,13 @@ internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permiss
                      
                     CreateRolePermission(Role.Manager, Permission.GetUser),
                     CreateRolePermission(Role.Manager, Permission.ModifyUser),
-                    CreateRolePermission(Role.Manager, Permission.AddUser), 
-                     
+                    CreateRolePermission(Role.Manager, Permission.AddUser),
+                    CreateRolePermission(Role.Manager, Permission.DeleteUser),
+
                     CreateRolePermission(Role.Administrator, Permission.GetUser),
                     CreateRolePermission(Role.Administrator, Permission.ModifyUser),
                     CreateRolePermission(Role.Administrator, Permission.AddUser),
+                    CreateRolePermission(Role.Administrator, Permission.DeleteUser),
 
                     CreateRolePermission(Role.Employee, Permission.GetUser),
                     CreateRolePermission(Role.Employee, Permission.ModifyUser), 

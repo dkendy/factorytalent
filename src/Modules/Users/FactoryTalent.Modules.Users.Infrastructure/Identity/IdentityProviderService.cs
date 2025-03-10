@@ -53,4 +53,22 @@ internal sealed class IdentityProviderService(KeyCloakClient keyCloakClient, ILo
             return Result.Failure<string>(IdentityProviderErrors.SearchError);
         }
     }
+
+    // DELETE /admin/realms/{realm}/users/{id} 
+
+    public async Task<Result> DeleteUserAsync(Guid identityId, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            await keyCloakClient.DeleteUserAsync(identityId, cancellationToken);
+            return Result.Success();
+        }
+        catch (HttpRequestException exception) when (exception.StatusCode == HttpStatusCode.NotFound)
+        {
+            logger.LogError(exception, "User deletion failed");
+            return Result.Failure(IdentityProviderErrors.UserNotFound);
+        }
+    }
+
+
 }

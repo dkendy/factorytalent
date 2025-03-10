@@ -12,7 +12,7 @@
       "AdminUrl": "http://FactoryTalent.identity:8080/admin/realms/factory/",
       "TokenUrl": "http://FactoryTalent.identity:8080/realms/factory/protocol/openid-connect/token",
       "ConfidentialClientId": "factory-confidential-client",
-      "ConfidentialClientSecret": "PzotcrvZRF9BHCKcUxdKfHWlIPECG49k",
+      "ConfidentialClientSecret": "O8Yj7nqaWOXag0Hlli0yqE3E2AhrHS06",
       "PublicClientId": "factory-public-client",
       "Authentication": {
         "TokenValidationParameters": {
@@ -20,8 +20,8 @@
         },
         "MetadataAddress": "http://FactoryTalent.identity:8080/realms/factory/.well-known/openid-configuration"
       },
-      "UserAdmin" : "adm@factory.com",
-      "PasswordAdm" : "P@ssw0rd1234"
+      "UserAdmin": "adm@factory.com",
+      "PasswordAdm": "P@ssw0rd1234"
     }
   }
 }

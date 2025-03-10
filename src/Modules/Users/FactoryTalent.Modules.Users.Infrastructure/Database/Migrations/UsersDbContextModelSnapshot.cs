@@ -73,6 +73,10 @@ partial class UsersDbContextModelSnapshot : ModelSnapshot
                     new
                     {
                         Code = "users:add"
+                    },
+                    new
+                    {
+                        Code = "users:delete"
                     });
             });
 
@@ -221,6 +225,11 @@ partial class UsersDbContextModelSnapshot : ModelSnapshot
                     },
                     new
                     {
+                        PermissionCode = "users:delete",
+                        RoleName = "Manager"
+                    },
+                    new
+                    {
                         PermissionCode = "users:read",
                         RoleName = "Administrator"
                     },
@@ -232,6 +241,11 @@ partial class UsersDbContextModelSnapshot : ModelSnapshot
                     new
                     {
                         PermissionCode = "users:add",
+                        RoleName = "Administrator"
+                    },
+                    new
+                    {
+                        PermissionCode = "users:delete",
                         RoleName = "Administrator"
                     },
                     new

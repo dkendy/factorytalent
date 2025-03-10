@@ -33,7 +33,7 @@ public sealed class User : Entity
 
     public string IdentityId { get; private set; }
 
-    public IReadOnlyCollection<Contact> Contacs => [.. _contacts];
+    public IReadOnlyCollection<Contact> Contacts => [.. _contacts];
 
     public IReadOnlyCollection<Role> Roles => [.. _roles];
 
@@ -81,4 +81,10 @@ public sealed class User : Entity
 
         Raise(new UserProfileUpdatedDomainEvent(Id, FirstName, LastName, Address));
     }
+
+    public void Delete(Guid Id)
+    { 
+        Raise(new UserProfileDeletedDomainEvent(Id)); 
+    }
+
 }

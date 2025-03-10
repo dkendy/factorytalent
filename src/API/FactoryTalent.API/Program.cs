@@ -48,7 +48,14 @@ builder.Services.AddHealthChecks()
     .AddKeyCloak(keyCloakHealthUrl);
 
 builder.Configuration.AddModuleConfiguration(["users"]);
- 
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+});
 
 builder.Services.AddUsersModule(builder.Configuration);
  
@@ -77,6 +84,8 @@ app.UseExceptionHandler();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseCors("AllowAll");
 
 app.MapEndpoints();
 

@@ -31,7 +31,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasIndex(u => u.IdentityId);
 
-        builder.HasMany(c=>c.Contacs)
+        builder.HasMany(c=>c.Contacts)
             .WithOne()
             .HasForeignKey(p => p.UserId)
             .IsRequired(false)

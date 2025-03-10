@@ -1,7 +1,7 @@
-﻿ 
-using System.Net.Http.Headers; 
-using FactoryTalent.Modules.Users.Domain.Users; 
-using Microsoft.Extensions.Configuration; 
+﻿
+using System.Net.Http.Headers;
+using FactoryTalent.Modules.Users.Domain.Users;
+using Microsoft.Extensions.Configuration;
 using FactoryTalent.Modules.Users.Application.Abstractions.Data;
 using Newtonsoft.Json;
 using System.Text;
@@ -17,20 +17,29 @@ using Polly;
 using FactoryTalent.Modules.Users.Application.Users.RegisterUser;
 using MediatR;
 using Polly.Telemetry;
+using FactoryTalent.Modules.Users.Infrastructure.Users;
+using System.Net;
 
 namespace FactoryTalent.Modules.Users.Infrastructure.Database.DataSeeder;
 
 public class DataSeeder
-{ 
-    private readonly IServiceProvider _provider; 
-    private readonly ISender _sender;
+{
+    private readonly IUserRepository _userRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IServiceProvider _provider;
+    private readonly IIdentityProviderService _identityProviderService;
 
 
-    public DataSeeder(IServiceProvider provider, ISender sender)
+    public DataSeeder(IServiceProvider provider, IUserRepository userRepository, IUnitOfWork unitOfWork,
+        IIdentityProviderService identityProviderService)
     {
-        _sender = sender;
-         _provider = provider; 
+        _userRepository = userRepository;
+        _unitOfWork = unitOfWork;
+        _provider = provider;
+        _identityProviderService = identityProviderService;
     }
+
+
 
     public async Task SeedAsync()
     {
@@ -38,28 +47,60 @@ public class DataSeeder
         KeyCloakOptions keycloakOptions = _provider
                    .GetRequiredService<IOptions<KeyCloakOptions>>().Value;
 
-        Result<Guid> result = await _sender.Send(new RegisterUserCommand(
-              keycloakOptions.UserAdmin,
-              keycloakOptions.PasswordAdm,
-              "Adm",
-              "Adm",
-              CpfGenerator.Create(),
-              DateTime.Now.AddYears(-18),
-              null,
-              "-",
-              new List<string>(),
-              Role.Administrator
-              ));
+        string usersJson = "";
 
+        Polly.Retry.AsyncRetryPolicy retryPolicy = Policy
+            .Handle<HttpRequestException>(ex => ShouldRetry(ex))
+            .WaitAndRetryAsync(30,
+                retryAttempt => TimeSpan.FromSeconds(Math.Min(30, Math.Pow(2, retryAttempt))),
+                (HttpRequestException, timeSpan) =>
+                {
+                    Console.WriteLine($"Keycloak not available, retrying in {timeSpan.TotalSeconds} seconds... Error: {HttpRequestException.Message}");
+                });
 
-        if (!result.IsSuccess && result.Error.Code != "Users.ArgumentError")
+        await retryPolicy.ExecuteAsync(async () =>
         {
-            throw new ArgumentException(result.Error.Description);
-        }
-         
+            Result<string> result = await _identityProviderService.RegisterUserAsync(
+                new UserModel(keycloakOptions.UserAdmin, keycloakOptions.PasswordAdm, "Adm", "Adm"),
+                new CancellationToken());
+
+            if (result.IsSuccess)
+            {
+                Console.WriteLine("Admin user registered successfully.");
+                usersJson = result.Value;
+            }
+            else
+            {
+                Result<string> resultSearch = await _identityProviderService.GetUserAsync(
+                    keycloakOptions.UserAdmin,
+                new CancellationToken());
+                if (resultSearch.IsSuccess)
+                {
+                    Console.WriteLine("Admin user registered successfully.");
+                    usersJson = resultSearch.Value;
+                }
+            }
+
+        });
+
+
+        await _userRepository.DeleteByEmailAsync(keycloakOptions.UserAdmin);
+        _userRepository.Insert(User.Create(keycloakOptions.UserAdmin, "Adm", "Adm", CpfGenerator.Create(), string.Empty, DateTime.Now, null, usersJson, new List<string>(), Role.Administrator));
+        await _unitOfWork.SaveChangesAsync();
+
+
 
     }
+
+    private static bool ShouldRetry(HttpRequestException ex)
+    {
+        if (ex.StatusCode == HttpStatusCode.Conflict)
+        {
+            return false;
+        }
+        return true;
+    }
 }
- 
+
 
 

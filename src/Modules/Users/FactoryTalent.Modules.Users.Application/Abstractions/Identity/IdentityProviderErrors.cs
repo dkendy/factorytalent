@@ -11,4 +11,8 @@ public static class IdentityProviderErrors
     public static readonly Error SearchError = Error.Failure(
        "Identity.SearchError",
        "An error occurred while searching for a user.");
+
+    public static readonly Error UserNotFound = Error.NotFound(
+        "Identity.UserNotFound",
+        "The specified user was not found.");
 }

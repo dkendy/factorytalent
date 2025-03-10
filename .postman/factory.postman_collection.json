@@ -1,25 +1,67 @@
 {
 	"info": {
-		"_postman_id": "83784d85-e243-4fa1-998d-77652abe787e",
+		"_postman_id": "d57ce26f-fb3b-4733-9a5b-18214be41964",
 		"name": "factory",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "417946"
 	},
 	"item": [
 		{
-			"name": "Users",
+			"name": "2 - Users",
 			"item": [
 				{
 					"name": "Register user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json();  \r",
+									"pm.collectionVariables.set(\"id_newuser\", response);\r",
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"  pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within an acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"pm.test(\"Verify that id_newuser variable is set in the collection variables\", function () {\r",
+									"    pm.expect(pm.collectionVariables.get(\"id_newuser\")).to.exist;\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"test12345@test.com\",\r\n  \"password\": \"123456\",\r\n  \"firstName\": \"First\",\r\n  \"lastName\": \"Last\"\r\n}",
+							"raw": "{\r\n  \"email\": \"taazxxz1CC5@test.com\",\r\n  \"password\": \"@3243Apppqw1\",\r\n  \"firstName\": \"First\",\r\n  \"lastName\": \"First\",\r\n  \"cpf\": \"59614830026\",\r\n  \"address\": \"-\",\r\n  \"birthDate\": \"2000-03-07T01:32:35.018Z\",\r\n  \"superiorId\": null,\r\n  \"contatos\": [\r\n    \"string\"\r\n  ],\r\n  \"role\": \"Employee\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -41,7 +83,66 @@
 				},
 				{
 					"name": "Get user profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within an acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields - id, email, firstName, lastName, and cpf\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.id).to.exist;\r",
+									"    pm.expect(responseData.email).to.exist;\r",
+									"    pm.expect(responseData.firstName).to.exist;\r",
+									"    pm.expect(responseData.lastName).to.exist;\r",
+									"    pm.expect(responseData.cpf).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Email is in a valid format\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.email).to.be.a('string').and.to.match(/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/, \"Email should be in a valid format\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Address should be null or a valid address schema\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.address).to.satisfy((address) => {\r",
+									"        return address === null || (typeof address === 'object' && Object.keys(address).length > 0);\r",
+									"    }, \"Address should be null or a valid address schema\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -59,7 +160,40 @@
 				},
 				{
 					"name": "Update user profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.lessThan(500);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
@@ -83,14 +217,136 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete user profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									" \r",
+									"\r",
+									"pm.test(\"Response body is null or empty\", function () {\r",
+									"    const responseData = xml2Json(pm.response.text());\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.null;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"User 1\",\r\n  \"lastName\": \"User 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/users/profile/{{id_newuser}}",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"users",
+								"profile",
+								"{{id_newuser}}"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
 		{
-			"name": "Identity",
+			"name": "1 - Identity",
 			"item": [
 				{
 					"name": "Access Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var response = pm.response.json(); \r",
+									"pm.collectionVariables.set(\"access_token\", response.access_token);\r",
+									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response time is within an acceptable range\", function () {\r",
+									"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response has the required fields\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"\r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.access_token).to.exist;\r",
+									"    pm.expect(responseData.expires_in).to.exist;\r",
+									"    pm.expect(responseData.refresh_expires_in).to.exist;\r",
+									"    pm.expect(responseData.refresh_token).to.exist;\r",
+									"    pm.expect(responseData.token_type).to.exist;\r",
+									"    pm.expect(responseData.id_token).to.exist;\r",
+									"    pm.expect(responseData['not-before-policy']).to.exist;\r",
+									"    pm.expect(responseData.session_state).to.exist;\r",
+									"    pm.expect(responseData.scope).to.exist;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Access token is a non-empty string\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token should not be empty\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Token type is a valid type (e.g., 'Bearer')\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.token_type).to.equal('Bearer');\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -135,25 +391,6 @@
 								"protocol",
 								"openid-connect",
 								"token"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Health",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:18080/health",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "18080",
-							"path": [
-								"health"
 							]
 						}
 					},
@@ -224,6 +461,11 @@
 		},
 		{
 			"key": "access_token",
+			"value": "xxxx",
+			"type": "string"
+		},
+		{
+			"key": "id_newuser",
 			"value": "xxxx",
 			"type": "string"
 		}
